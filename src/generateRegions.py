@@ -55,10 +55,11 @@ def downstreamRegion(rec,distance):
 
 def genOutRecs(rec,regions):
     new_recs = []
-    for pair in regions:
-        s,e = pair
+    for akey in regions:
+        s,e = regions[akey]
         new_rec = []
         new_rec.append(gene_id(rec))
+        new_rec.append(akey)
         new_rec.append(chrom(rec))
         new_rec.append(str(s))
         new_rec.append(str(e))
@@ -70,7 +71,14 @@ def transformGene(rec,upstream,downstream):
     downReg = downstreamRegion(rec,downstream)
     geneBody = [start(rec),end(rec)]
     
-    out_recs = genOutRecs(rec, [upReg,geneBody,downReg])        
+    #out_recs = genOutRecs(rec, [upReg,geneBody,downReg])
+    out_map = {}
+    out_map["up"] = upReg
+    out_map["body"] = geneBody
+    out_map["down"] = downReg
+    #out_recs = genOutRecs(rec, [upReg,geneBody,downReg])
+    out_recs = genOutRecs(rec, out_map)
+            
     return out_recs
         
     
